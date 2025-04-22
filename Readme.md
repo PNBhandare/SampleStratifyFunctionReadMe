@@ -1,6 +1,6 @@
 This is all the logic of the code mashed up into one function. For readability, they will be split in final implementation.
 
-```{python}
+```python
 def stratify(rules):
     step, drop, init, inter, operation = rules[0].split('-')
     
