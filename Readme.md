@@ -1,4 +1,34 @@
-This is a more abstract and readable version of the logic used to stratify initial classification based various rules using raster operations. Headers and descriptors and additional documentation will be added.
+This is a more abstract and readable version of the logic used to stratify initial classification based various rules using raster operations.
+
+# Imports and other Header Information
+```python
+import pandas as pd
+import arcpy
+from arcpy.sa import *
+from arcgis.gis import GIS
+import arcgis
+import os
+```
+
+```
+rulesPath = MANUALLY_INPUTTED_RULE_PATH
+
+ruleSteps = pd.ExcelFile(rulesPath).sheet_names
+
+aprx = arcpy.mp.ArcGISProject("CURRENT")
+
+mapView = aprx.listMaps()[0]
+
+layers = mapView.listLayers()
+
+rasters = {layer.name: Raster(arcpy.Describe(layer).catalogPath) 
+           for layer in layers if layer.isRasterLayer}
+
+arcpy.env.mask = rasters['unet']
+
+outputPath = MANUALLY_INPUTTED_OUTPUT_PATH
+```
+# Functions
 
 ```python
 def ingestRules(rulesPath, ruleStep, ruleColumns):
@@ -28,20 +58,14 @@ def calculate(init, inter, step):
     
     reclassPath = os.path.join(outputPath, 'rasterCalc' + str(step) + '.tif')
     
-    print('Got size')
-    
     if firstRasterSize > secondRasterSize:
-        print('Trying math')
         (inter * (10**int(math.ceil(math.log10(firstRasterSize)))) 
          + init).save(reclassPath)
-        print('Mathed')
         
         return reclassPath, inter, init, firstRasterSize # smaller, larger
     else:
-        print('Trying math')
         (init * (10**int(math.ceil(math.log10(secondRasterSize)))) 
          + inter).save(reclassPath)
-        print('Mathed')
         
         return reclassPath, init, inter, secondRasterSize # smaller, larger
         
@@ -85,12 +109,23 @@ def stratify(rules, currStep = 0, reclassifiedPath = None):
                                                       else rasters[reclassifiedPath], 
                                                       rasters[inter],
                                                       stepNum)
-    
-    print(larger)
         
     reclassifiedPath = reclassify(df, toReclass, codes, largerNum, stepNum)
     
-    print(reclassifiedPath)
-    
     return reclassifiedPath
 ```
+# Execution
+Execute functions in pattern
+```python
+step1 = stratify(ruleSteps)
+
+arcpy.management.MakeRasterLayer(os.path.join(outputPath, 'reclassified1.tif'), 'reclassified1')
+
+layers = mapView.listLayers()
+
+rasters = {layer.name: Raster(arcpy.Describe(layer).catalogPath) 
+           for layer in layers if layer.isRasterLayer}
+
+step2 = stratify(ruleSteps, 1, 'reclassified1')
+```
+For systems get greater compute, alternative recursive function can be written.
