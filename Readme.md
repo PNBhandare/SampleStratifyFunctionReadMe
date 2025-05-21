@@ -1,4 +1,18 @@
-This is a more abstract and readable version of the logic used to stratify initial classification based various rules using raster operations.
+# St. Louis River Estuary Habitat Mapping: Post-processing of initial UNET land cover classes
+
+## Objective
+
+The objective of the "Phase 2" post-processing operation was to refine UNET-derived land cover classes for the study area using GIS-based rules and ancillary datasets. Input to the post-processing steps was a completed UNET land cover map in raster format, derived from NAIP aerial imagery. The study area is a one-mile buffer around the St. Louis River estuary in the Duluth-Superior area. The UNET classification process is described here [link to U-Spatial GitHub].
+
+The post-processing steps took the form of a series of 8 rulesets. Each ruleset was applied to the output from the previous step. The rules are as follows:
+
+- <span style="color:#228833">**Ruleset 1 - Overlay LANDFIRE riparian zones on UNET map to differentiate between wetland and upland classes. Specifically: a) Any pixel classified as Forest on UNET was reclassified as Forested Wetland if it coincided with a LANDFIRE Open Water or Riparian pixel. Otherwise the pixel was reclassified as Forested Upland. b) Any pixel classified as Scrub-shrub on UNET was reclassified as Scrub-Shrub Wetland if it coincided with a LANDFIRE Open Water or Riparian pixel. Otherwise the pixel was reclassified as Scrub-Shrub Upland. c) Any pixel classified as Herbaceous on UNET was reclassified as Emergent Wetland if it coincided with a LANDFIRE Riparian pixel, as Aquatic Bed if it coincided with a LANDFIRE Open Water pixel, and as Herbaceous Upland otherwise.**</span>
+- <span style="color:#EE6677">**2 - UNVEGETATED UNCONSOLIDATED**</span>
+- <span style="color:#CCBB44">**3 - SCRUB-SHRUB**</span>
+- <span style="color:#66CCEE">**4 - HERBACEOUS**</span>
+- <span style="color:#AA3377">**5 - HUMAN-MADE STRUCTURES**</span>
+- <span style="color:#BBBBBB">**6 - UNVEGETATED ROCKY**</span>
+- <span style="color:#4477AA">**7 - WATER**</span>
 
 # Imports and other Header Information
 ```python
