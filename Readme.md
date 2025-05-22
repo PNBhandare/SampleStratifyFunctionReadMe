@@ -24,7 +24,11 @@ The post-processing steps took the form of a series of 8 rulesets. Each ruleset 
 
 ## GIS Methods
 
-The rulesets described above were implemented in GIS using standard raster processing tools such as Reclassify and Raster Calculator. The output of each ruleset was used as the input to the next ruleset. The output of the final ruleset (Ruleset 7) produced the final version of the Habitat Map. The GIS procedure is encompassed within the Python code below, which extracts the rules from a stand-alone Excel file. 
+The rulesets described above were implemented in GIS using standard raster processing tools such as Reclassify and Raster Calculator. The output of each ruleset was used as the input to the next ruleset. The output of the final ruleset (Ruleset 7) produced the final version of the Habitat Map. The GIS procedure is encompassed within the Python code below, which extracts the rules from a stand-alone Excel file. This Excel file is included in this GitHub repository.
+
+Note that the edits made in the Phase 2 part of the project are tailored to the specific conditions of the St. Louis River Estuary Habitat Mapping Project. While the general principles may apply elsewhere, different datasets and rules would need to be used in other study areas.
+
+All data used to implement the rules are available on the geodata@wisconsin geoportal. 
 
 ## Imports and other Header Information
 ```python
