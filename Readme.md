@@ -1,6 +1,6 @@
 # St. Louis River Estuary Habitat Mapping: Post-processing of initial UNET land cover classes
 
-## Objective
+## Objectives and Rules
 
 The objective of the "Phase 2" post-processing operation was to refine UNET-derived land cover classes for the study area using GIS-based rules and ancillary datasets. Input to the post-processing steps was a completed UNET land cover map in raster format, derived from NAIP aerial imagery. The study area is a one-mile buffer around the St. Louis River estuary in the Duluth-Superior area. The UNET classification process is described here [link to U-Spatial GitHub].
 
@@ -22,7 +22,11 @@ The post-processing steps took the form of a series of 8 rulesets. Each ruleset 
 
 - <span>Ruleset 8 - Overlay modified UNET map output by Ruleset 7 with a rasterized layer derived from a wetlands survey of the estuary. The rules changed some pixels from **Herbaceous Upland** to **Emergent Wetland** and **Aquatic Bed**.</span>
 
-# Imports and other Header Information
+## GIS Methods
+
+The rulesets described above were implemented in GIS using standard raster processing tools such as Reclassify and Raster Calculator. The output of each ruleset was used as the input to the next ruleset. The output of the final ruleset (Ruleset 7) produced the final version of the Habitat Map. The GIS procedure is encompassed within the Python code below, which extracts the rules from a stand-alone Excel file. 
+
+## Imports and other Header Information
 ```python
 import pandas as pd
 import arcpy
@@ -50,7 +54,7 @@ arcpy.env.mask = rasters['unet']
 
 outputPath = MANUALLY_INPUTTED_OUTPUT_PATH
 ```
-# Functions
+## Functions
 
 ```python
 def ingestRules(rulesPath, ruleStep, ruleColumns):
@@ -136,7 +140,7 @@ def stratify(rules, currStep = 0, reclassifiedPath = None):
     
     return reclassifiedPath
 ```
-# Execution
+## Execution
 Execute functions in pattern
 ```python
 step1 = stratify(ruleSteps)
@@ -150,4 +154,4 @@ rasters = {layer.name: Raster(arcpy.Describe(layer).catalogPath)
 
 step2 = stratify(ruleSteps, 1, 'reclassified1')
 ```
-For systems get greater compute, alternative recursive function can be written.
+For systems with greater computing power, alternative recursive functions can be written.
