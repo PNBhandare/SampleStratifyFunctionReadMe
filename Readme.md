@@ -7,12 +7,20 @@ The objective of the "Phase 2" post-processing operation was to refine UNET-deri
 The post-processing steps took the form of a series of 8 rulesets. Each ruleset was applied to the output from the previous step. The rules are as follows:
 
 - <span>Ruleset 1 - Overlay LANDFIRE riparian zones on UNET map to differentiate between wetland and upland classes. Specifically: a) Any pixel classified as **Forest** on UNET was reclassified as **Forested Wetland** if it coincided with a LANDFIRE **Open Water** or **Riparian pixel**. Otherwise the pixel was reclassified as **Forested Upland**. b) Any pixel classified as **Scrub-Shrub** on UNET was reclassified as **Scrub-Shrub Wetland** if it coincided with a LANDFIRE **Open Water** or **Riparian** pixel. Otherwise the pixel was reclassified as **Scrub-Shrub Upland**. c) Any pixel classified as **Herbaceous** on UNET was reclassified as **Emergent Wetland** if it coincided with a LANDFIRE **Riparian** pixel, as **Aquatic Bed** if it coincided with a LANDFIRE **Open Water** pixel, and as **Herbaceous Upland** otherwise.</span>
-- span>Ruleset 2 - Overlay modified UNET map output by Ruleset 1 with wetlands polygons from Coastal Wetlands Monitoring Program (CWMP) for the St. Louis River Estuary. The goal is to modify some classes that were erroneously coded as upland by UNET. Ruleset 2 modifies 3 cases: a) Any pixel classified as **Forested Upland** was reclassified as **Forested Wetland** if it coincided with a CWMP **Wetlands** pixel. b) Any pixel classified as **Scrub-Shrub Upland** was reclassified as **Scrub-Shrub Wetland** if it coincided with a CWMP **Wetlands** pixel. c) Any pixel classified as **Herbaceous Upland** was reclassified as **Emergent Wetland** if it coincided with a CWMP **Wetlands** pixel.</span>
-- <span style="color:#CCBB44">**3 - SCRUB-SHRUB**</span>
-- <span style="color:#66CCEE">**4 - HERBACEOUS**</span>
-- <span style="color:#AA3377">**5 - HUMAN-MADE STRUCTURES**</span>
-- <span style="color:#BBBBBB">**6 - UNVEGETATED ROCKY**</span>
-- <span style="color:#4477AA">**7 - WATER**</span>
+
+- <span>Ruleset 2 - Overlay modified UNET map output by Ruleset 1 with wetlands polygons from Coastal Wetlands Monitoring Program (CWMP) for the St. Louis River Estuary. The goal was to modify some classes that were erroneously coded as upland by UNET. Ruleset 2 modifies 3 cases: a) Any pixel classified as **Forested Upland** was reclassified as **Forested Wetland** if it coincided with a CWMP **Wetlands** pixel. b) Any pixel classified as **Scrub-Shrub Upland** was reclassified as **Scrub-Shrub Wetland** if it coincided with a CWMP **Wetlands** pixel. c) Any pixel classified as **Herbaceous Upland** was reclassified as **Emergent Wetland** if it coincided with a CWMP **Wetlands** pixel.</span>
+
+- <span>Ruleset 3 - Overlay modified UNET map output by Ruleset 2 with a rasterized layer of lake polygons. The goal was to differentiate rivers from lakes. Ruleset 3 modifies 2 cases: a) Any pixel classified as **Water** was reclassified as **Lake** if it coincided with a lake pixel. b) Any pixel classified as **Water** was reclassified as **River** if it did not coincide with a lake pixel.</span>
+
+- <span>Ruleset 4 - Overlay modified UNET map output by Ruleset 3 with a rasterized layer of lake bathymetry. The goal was to differentiate lake littoral (above 2.5 m depth) from lake limnetic (over 2.5 m depth). Ruleset 4 modifies 2 cases: a) Any pixel classified as **Lake** was reclassified as **Lake Littoral** if it was less than 2.5 m in depth. b) Any pixel classified as **Lake** was reclassified as **Lake Limnetic** if it was more than 2.5 m in depth.</span>
+
+- <span>Ruleset 5 - Overlay modified UNET map output by Ruleset 4 with a rasterized layer of edits determined by ecological consultants. The goal was to surgically fix some incorrectly classfied areas. A polygon layer of fixes was created with codes indicting how the modified UNET map was to be changed (e.g., change cultural to river). Most of the edits involved then classes of **Cultural**, **River**, **Unconsolidated** and **Aquatic Bed**.</span>
+
+- <span>Ruleset 6 - Overlay modified UNET map output by Ruleset 5 with a rasterized layer of different **Unconsolidated** classes. The goal was to differentiate between **Unconsolidated Lakeshore**, **Unconsolidated Riverbank** and **Unconsolidated Upland**. These rules were implemented using a rasterized version of a polygon layer showing the differentiation of these classes.</span>
+
+- <span>Ruleset 7 - Overlay modified UNET map output by Ruleset 6 with a rasterized layer identifying fixes to **River**, **Lake Littoral** and **Lake Limnetic** pixels. These areas were identified by the ecological consultants. Chnages included reclassifying these classes to **Unconsolidated Upland**, **Rocky**, **Ponds**, **Herbaceous Upland**, **Forested Wetland**, **Forested Upland** and **Cultural**.</span>
+
+- <span>Ruleset 8 - Overlay modified UNET map output by Ruleset 7 with a rasterized layer derived from a wetlands survey of the estuary. The rules changed some pixels from **Herbaceous Upland** to **Emergent Wetland** and **Aquatic Bed**.</span>
 
 # Imports and other Header Information
 ```python
