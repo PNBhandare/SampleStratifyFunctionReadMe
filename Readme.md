@@ -2,7 +2,7 @@
 
 ## Objectives and Rules
 
-The objective of the "Phase 2" post-processing operation was to refine UNET-derived land cover classes for the study area using GIS-based rules and ancillary datasets. Input to the post-processing steps was a completed UNET land cover map in raster format, derived from NAIP aerial imagery. The study area is a one-mile buffer around the St. Louis River estuary in the Duluth-Superior area. The UNET classification process is described here [link to U-Spatial GitHub].
+The objective of UNET "Phase 2" post-processing was to refine UNET-derived land cover classes using GIS-based rules and ancillary datasets. Input to the post-processing steps was a completed UNET land cover map in raster format, derived from NAIP aerial imagery. The study area is a one-mile buffer around the St. Louis River estuary in the Duluth-Superior area.
 
 The post-processing steps took the form of a series of 8 rulesets. Each ruleset was applied to the output from the previous step. The rules are as follows:
 
@@ -24,11 +24,11 @@ The post-processing steps took the form of a series of 8 rulesets. Each ruleset 
 
 ## GIS Methods
 
-The rulesets described above were implemented in GIS using standard raster processing tools such as Reclassify and Raster Calculator. The output of each ruleset was used as the input to the next ruleset. The output of the final ruleset (Ruleset 7) produced the final version of the Habitat Map. The GIS procedure is encompassed within the Python code below, which extracts the rules from a stand-alone Excel file. This Excel file is included in this GitHub repository.
+The rulesets described above were implemented in GIS using standard raster processing tools such as Reclassify and Raster Calculator. The output of each ruleset was used as the input to the next ruleset. The output of the final ruleset produced the final version of the Habitat Map. The GIS procedure is encompassed within the Python code below, which extracts the rules from a stand-alone Excel file. This Excel file is included in this GitHub repository. Alternately, users can also run the Raster Calculator and Reclassify commands interactively, using the steps described on each tab of the spreadsheet.
 
 Note that the edits made in the Phase 2 part of the project are tailored to the specific conditions of the St. Louis River Estuary Habitat Mapping Project. While the general principles may apply elsewhere, different datasets and rules would need to be used in other study areas.
 
-All data used to implement the rules are available on the geodata@wisconsin geoportal. 
+All data used to implement the rules are available on the geodata@wisconsin geoportal. The LUTs (Look Up Tables) included in this GitHub repository define the class associated with the numerical codes in the GIS layers.
 
 ## Imports and other Header Information
 ```python
