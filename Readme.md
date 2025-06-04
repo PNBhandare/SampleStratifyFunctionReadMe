@@ -159,3 +159,8 @@ rasters = {layer.name: Raster(arcpy.Describe(layer).catalogPath)
 step2 = stratify(ruleSteps, 1, 'reclassified1')
 ```
 For systems with greater computing power, alternative recursive functions can be written.
+
+## Acknowledgements
+
+This work was sponsored by the National Estuarine Research Reserve System Science Collaborative, which supports collaborative research that addresses coastal management problems important to the reserves. The Science Collaborative is funded by the National Oceanic and Atmospheric Administration and managed by the University of Michigan Water Center (NA19NOS4190058). The project team is also grateful for the support and assistance provided by the St. Louis River Habitat Workgroup.
+
